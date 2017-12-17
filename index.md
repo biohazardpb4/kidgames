@@ -1,6 +1,8 @@
 ---
 ---
 
+Welcome to my portfolio of public projects! Since most of my development time goes into my day job, these generally have a lower level of polish than something I'd make for that.
+
 Apps:
 - [Cast Bowling](https://play.google.com/store/apps/details?id=com.jprodevelopment.castbowling){:target="_blank"} is a multiplayer bowling game for the Chromecast.
 - [Fist Pump Revolution](https://play.google.com/store/apps/details?id=FPR.FistPumpRevolutionDemo){:target="_blank"} is a game in which you're judged by how well you can fist pump to certain songs.
