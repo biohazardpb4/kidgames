@@ -15,3 +15,5 @@ Profiles:
 - [LinkedIn](https://www.linkedin.com/in/jay-prombo-468b5723/){:target="_blank"}
 - [Google Play Listings](https://play.google.com/store/apps/developer?id=JPro%20Development&hl=en){:target="_blank"}
 
+Contact: jay@jprodevelopment.com
+
