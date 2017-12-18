@@ -12,7 +12,7 @@ Sites:
 - [Peer Advisr](http://www.peeradvisr.com/){:target="_blank"} lets users anonymously ask questions to someone in a target audience, and strike up a conversation after an answer while remaining anonymous.
 
 Profiles:
-- [LinkedIn](https://www.linkedin.com/in/jay-prombo-468b5723/){:target="_blank"}
+- [LinkedIn](https://www.linkedin.com/in/prombo/){:target="_blank"}
 - [Google Play Listings](https://play.google.com/store/apps/developer?id=JPro%20Development&hl=en){:target="_blank"}
 
 Contact: jay@jprodevelopment.com
