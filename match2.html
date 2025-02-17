@@ -86,6 +86,42 @@
             opacity: 0.2;
         }
 
+        .card.matched {
+            transform: rotateY(180deg) scale(0.95);
+            opacity: 0.2;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .card.highlight {
+            animation: highlightMatch 1s ease-in-out;
+        }
+
+        @keyframes highlightMatch {
+            0% {
+                transform: rotateY(180deg) scale(1);
+                box-shadow: 0 0 0 rgba(76, 175, 80, 0);
+            }
+            50% {
+                transform: rotateY(180deg) scale(1.1);
+                box-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+            }
+            100% {
+                transform: rotateY(180deg) scale(1);
+                box-shadow: 0 0 0 rgba(76, 175, 80, 0);
+            }
+        }
+
+        .card-front {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .card.highlight .card-front {
+            border-color: #4CAF50;
+        }
+
         .card-front, .card-back {
             position: absolute;
             width: 100%;
@@ -415,23 +451,33 @@
             const match = card1.dataset.image === card2.dataset.image;
 
             if (match) {
-                card1.classList.add('matched');
-                card2.classList.add('matched');
-                matchedPairs++;
-                updateStats();
-                showMatchAnimation(); // Add this line to show the match animation
-                checkWin();
+                // Add highlight animation
+                card1.classList.add('highlight');
+                card2.classList.add('highlight');
+
+                // Wait for highlight animation before marking as matched
+                setTimeout(() => {
+                    card1.classList.remove('highlight');
+                    card2.classList.remove('highlight');
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    matchedPairs++;
+                    updateStats();
+                    showMatchAnimation();
+                    checkWin();
+                }, 1000);
             } else {
+                // For non-matches, wait longer before flipping back
                 setTimeout(() => {
                     card1.classList.remove('flip');
                     card2.classList.remove('flip');
-                }, 1000);
+                }, 1500);
             }
 
             flippedCards = [];
             setTimeout(() => {
                 canFlip = true;
-            }, 1000);
+            }, 1500); // Increased delay to match the longer animation
         }
 
         function checkWin() {
