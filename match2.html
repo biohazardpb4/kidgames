@@ -9,6 +9,16 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            touch-action: manipulation; /* Prevents double-tap zoom */
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: fixed; /* Prevents bounce on iOS */
         }
 
         body {
@@ -16,21 +26,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            min-height: 100vh;
-            height: 100vh; /* Force exact height */
-            font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            padding: 10px;
-            margin: 0;
-            overflow: hidden; /* Prevent scrolling */
+            font-family: Arial, sans-serif;
         }
 
         .game-container {
-            width: 95vw;
-            height: calc(100vh - 20px); /* Account for body padding */
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); /* iOS notch support */
         }
 
         .level-info {
@@ -278,6 +283,10 @@
     </style>
 </head>
 <body>
+    <!-- Add full screen button -->
+    <button id="fullscreenButton" style="position: fixed; top: 10px; right: 10px; z-index: 1000; padding: 8px; border-radius: 4px; border: none; background: rgba(33, 150, 243, 0.8); color: white;">
+        Full Screen
+    </button>
     <div class="game-container">
         <div class="level-info">Level <span id="level">1</span></div>
         <div class="stats">
@@ -318,6 +327,44 @@
     </div>
 
     <script>
+        // Add full screen functionality
+        const fullscreenButton = document.getElementById('fullscreenButton');
+
+        fullscreenButton.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Handle full screen changes
+        document.addEventListener('fullscreenchange', () => {
+            if (document.fullscreenElement) {
+                fullscreenButton.textContent = 'Exit Full';
+                // Lock screen orientation if supported
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('portrait').catch(err => {
+                        console.log(`Error locking orientation: ${err.message}`);
+                    });
+                }
+            } else {
+                fullscreenButton.textContent = 'Full Screen';
+            }
+        });
+
+        // Prevent default touch behaviors
+        document.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Handle iOS PWA full screen
+        if (window.navigator.standalone) {
+            document.documentElement.classList.add('ios-pwa');
+        }
+
         // Image assets (replace these URLs with your actual image assets)
         const imageAssets = [
             // 'images/cat.svg',
