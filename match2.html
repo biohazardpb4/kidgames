@@ -11,33 +11,38 @@
             padding: 0;
         }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            min-height: 100vh;
-            touch-action: manipulation;
-        }
+        /* Replace or update these CSS rules */
 
-        .game-container {
-            width: 100%;
-            max-width: 600px;
-            padding: 10px;
-            margin: 0 auto;
-        }
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 10px; /* Reduced padding */
+    margin: 0;
+}
 
-        .grid {
-            display: grid;
-            gap: 8px;
-            margin: 10px auto;
-            justify-content: center;
-        }
+.game-container {
+    width: 95vw; /* Increased from previous */
+    height: 85vh; /* Added explicit height */
+    margin: 0 auto;
+    padding: 5px; /* Reduced padding */
+}
+
+.grid {
+    display: grid;
+    gap: 5px; /* Reduced gap between cards */
+    width: 100%;
+    height: 100%;
+}
+
 
         .card {
-            width: 80px;
-            height: 80px;
+            width: 100%;
+            height: 100%;
             position: relative;
             cursor: pointer;
             transform-style: preserve-3d;
@@ -61,18 +66,18 @@
             opacity: 0.2;
         }
 
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(15vw, 80px); /* Increased font size */
+    border-radius: 8px; /* Slightly reduced for less space usage */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Reduced shadow */
+}
 
         .card-front {
             background-color: #ffffff;
@@ -92,13 +97,12 @@
             background-repeat: no-repeat;
             background-position: center;
         }
-        
+
         .level-info {
-            font-size: 20px;
-            margin: 10px;
-            text-align: center;
-            color: #333;
-        }
+    font-size: min(24px, 5vw);
+    margin: 5px; /* Reduced margin */
+    height: 5vh; /* Added explicit height */
+}
 
         .modal {
             display: none;
