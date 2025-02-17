@@ -11,34 +11,54 @@
             padding: 0;
         }
 
-        /* Replace or update these CSS rules */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            height: 100vh; /* Force exact height */
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
 
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    padding: 10px; /* Reduced padding */
-    margin: 0;
-}
+        .game-container {
+            width: 95vw;
+            height: calc(100vh - 20px); /* Account for body padding */
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-.game-container {
-    width: 95vw; /* Increased from previous */
-    height: 85vh; /* Added explicit height */
-    margin: 0 auto;
-    padding: 5px; /* Reduced padding */
-}
+        .level-info {
+            font-size: min(24px, 5vw);
+            margin: 0;
+            flex: 0 0 auto; /* Don't grow or shrink */
+        }
 
-.grid {
-    display: grid;
-    gap: 5px; /* Reduced gap between cards */
-    width: 100%;
-    height: 100%;
-}
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+            margin: 5px auto;
+            padding: 8px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex: 0 0 auto; /* Don't grow or shrink */
+        }
 
+        .grid {
+            display: grid;
+            gap: 5px;
+            width: 100%;
+            flex: 1; /* Take remaining space */
+            min-height: 0; /* Allow grid to shrink */
+        }
 
         .card {
             width: 100%;
@@ -66,18 +86,18 @@ body {
             opacity: 0.2;
         }
 
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: min(15vw, 80px); /* Increased font size */
-    border-radius: 8px; /* Slightly reduced for less space usage */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Reduced shadow */
-}
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: min(15vw, 80px); /* Increased font size */
+            border-radius: 8px; /* Slightly reduced for less space usage */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Reduced shadow */
+        }
 
         .card-front {
             background-color: #ffffff;
@@ -99,10 +119,10 @@ body {
         }
 
         .level-info {
-    font-size: min(24px, 5vw);
-    margin: 5px; /* Reduced margin */
-    height: 5vh; /* Added explicit height */
-}
+            font-size: min(24px, 5vw);
+            margin: 5px; /* Reduced margin */
+            height: 5vh; /* Added explicit height */
+        }
 
         .modal {
             display: none;
