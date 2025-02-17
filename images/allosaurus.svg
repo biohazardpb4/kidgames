@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Allosaurus</title>
+  <path d="M110,100 Q120,90 130,100 L150,110 Q160,115 150,120 L130,125 Q120,130 110,125 Z" fill="#8B0000"/>
+  <path d="M120,125 L125,150 L115,150 Z" fill="#8B0000"/>
+  <path d="M135,125 L140,150 L130,150 Z" fill="#8B0000"/>
+  <path d="M100,95 Q90,85 80,95 L70,100 Q65,105 70,110 L80,115 Q90,120 100,115 Z" fill="#8B0000"/>
+  <path d="M70,105 L60,107 L70,110" fill="none" stroke="#8B0000" stroke-width="2"/>
+  <circle cx="85" cy="100" r="3" fill="black"/>
+  <path d="M115,110 L117,120 L113,120" fill="#8B0000"/>
+</svg>

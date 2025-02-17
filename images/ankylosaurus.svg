@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Ankylosaurus</title>
+  <path d="M80,110 Q100,100 140,110 L160,115 Q170,117 160,120 L140,125 Q100,130 80,125 Z" fill="#4A4A4A"/>
+  <path d="M100,125 L105,150 L95,150 Z" fill="#4A4A4A"/>
+  <path d="M120,125 L125,150 L115,150 Z" fill="#4A4A4A"/>
+  <path d="M70,110 L60,112 L70,115" fill="#4A4A4A"/>
+  <circle cx="100" cy="110" r="5" fill="#696969"/>
+  <circle cx="120" cy="110" r="5" fill="#696969"/>
+  <circle cx="140" cy="110" r="5" fill="#696969"/>
+  <path d="M160,117 L180,117" fill="none" stroke="#4A4A4A" stroke-width="4"/>
+  <circle cx="185" cy="117" r="6" fill="#696969"/>
+  <circle cx="65" cy="112" r="2" fill="black"/>
+</svg>

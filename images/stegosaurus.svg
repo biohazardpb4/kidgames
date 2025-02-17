@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Stegosaurus</title>
+  <path d="M80,110 Q100,100 140,110 L160,115 Q170,117 160,120 L140,125 Q100,130 80,125 Z" fill="#698B69"/>
+  <path d="M100,125 L105,150 L95,150 Z" fill="#698B69"/>
+  <path d="M120,125 L125,150 L115,150 Z" fill="#698B69"/>
+  <path d="M140,125 L145,150 L135,150 Z" fill="#698B69"/>
+  <path d="M90,125 L95,150 L85,150 Z" fill="#698B69"/>
+  <path d="M70,110 L60,112 L70,115" fill="#698B69"/>
+  <path d="M90,100 L95,85 L100,100" fill="#698B69"/>
+  <path d="M110,100 L115,85 L120,100" fill="#698B69"/>
+  <path d="M130,100 L135,85 L140,100" fill="#698B69"/>
+  <circle cx="65" cy="112" r="2" fill="black"/>
+</svg>

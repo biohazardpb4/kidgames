@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Diplodocus</title>
+  <path d="M60,120 Q100,110 160,120 L180,125 Q190,127 180,130 L160,135 Q100,140 60,135 Z" fill="#A0522D"/>
+  <path d="M80,135 L85,170 L75,170 Z" fill="#A0522D"/>
+  <path d="M100,135 L105,170 L95,170 Z" fill="#A0522D"/>
+  <path d="M140,135 L145,170 L135,170 Z" fill="#A0522D"/>
+  <path d="M160,135 L165,170 L155,170 Z" fill="#A0522D"/>
+  <path d="M60,120 Q50,100 40,90" fill="none" stroke="#A0522D" stroke-width="8"/>
+  <path d="M35,85 L25,90 L35,95" fill="#A0522D"/>
+  <path d="M180,125 Q190,125 200,127" fill="none" stroke="#A0522D" stroke-width="8"/>
+  <circle cx="30" cy="90" r="2" fill="black"/>
+</svg>

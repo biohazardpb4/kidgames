@@ -426,7 +426,7 @@
         function createBoard() {
             const grid = document.getElementById('grid');
             const config = gridConfigs[level - 1];
-            const totalPairs = (config.rows * config.cols) / 2;
+            const totalPairs = Math.floor((config.rows * config.cols) / 2);
             
             // Reset game state
             grid.innerHTML = '';
@@ -479,7 +479,7 @@
         function updateStats() {
             document.getElementById('moves').textContent = moves;
             const config = gridConfigs[level - 1];
-            const totalPairs = (config.rows * config.cols) / 2;
+            const totalPairs = Math.floor((config.rows * config.cols) / 2);
             document.getElementById('pairs-left').textContent = 
                 totalPairs - matchedPairs;
         }
@@ -540,7 +540,7 @@
 
         function checkWin() {
             const config = gridConfigs[level - 1];
-            const totalPairs = (config.rows * config.cols) / 2;
+            const totalPairs = Math.floor((config.rows * config.cols) / 2);
             
             if (matchedPairs === totalPairs) {
                 clearInterval(timerInterval);

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Tyrannosaurus Rex</title>
+  <path d="M120,100 Q130,90 140,100 L160,110 Q170,115 160,120 L140,125 Q130,130 120,125 Z" fill="#8B4513"/>
+  <path d="M130,125 L135,150 L125,150 Z" fill="#8B4513"/>
+  <path d="M145,125 L150,150 L140,150 Z" fill="#8B4513"/>
+  <path d="M110,95 Q100,85 90,95 L80,100 Q75,105 80,110 L90,115 Q100,120 110,115 Z" fill="#8B4513"/>
+  <path d="M80,105 L70,107 L80,110" fill="none" stroke="#8B4513" stroke-width="2"/>
+  <circle cx="95" cy="100" r="3" fill="black"/>
+  <path d="M75,106 L77,108 L79,106 L81,108 L83,106" fill="none" stroke="white" stroke-width="1"/>
+  <path d="M125,110 L127,115 L123,115" fill="#8B4513"/>
+</svg>

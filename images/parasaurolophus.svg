@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Parasaurolophus</title>
+  <path d="M100,120 Q120,110 140,120 L160,125 Q170,127 160,130 L140,135 Q120,140 100,135 Z" fill="#DEB887"/>
+  <path d="M120,135 L125,160 L115,160 Z" fill="#DEB887"/>
+  <path d="M140,135 L145,160 L135,160 Z" fill="#DEB887"/>
+  <path d="M90,120 L80,115 L70,120 L80,125" fill="#DEB887"/>
+  <path d="M80,115 Q70,100 60,70" fill="#DEB887"/>
+  <circle cx="75" cy="120" r="2" fill="black"/>
+</svg>

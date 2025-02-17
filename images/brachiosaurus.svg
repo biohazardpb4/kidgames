@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <title>Brachiosaurus</title>
+  <path d="M80,120 Q100,110 140,120 L160,125 Q170,127 160,130 L140,135 Q100,140 80,135 Z" fill="#CD853F"/>
+  <path d="M100,135 L105,170 L95,170 Z" fill="#CD853F"/>
+  <path d="M120,135 L125,170 L115,170 Z" fill="#CD853F"/>
+  <path d="M80,120 Q70,90 60,70" fill="none" stroke="#CD853F" stroke-width="10"/>
+  <path d="M55,65 L45,70 L55,75" fill="#CD853F"/>
+  <circle cx="50" cy="70" r="2" fill="black"/>
+</svg>
