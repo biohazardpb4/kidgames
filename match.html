@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Matching Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .game-container {
+            margin: 20px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 10px;
+            margin: 20px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transform: scale(1);
+            transition: transform 0.5s;
+        }
+
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            transform: rotateY(180deg) scale(0.95);
+            opacity: 0.8;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .card-front {
+            background-color: #2196F3;
+            transform: rotateY(180deg);
+        }
+
+        .card-back {
+            background-color: #ffffff;
+        }
+
+        .level-info {
+            font-size: 24px;
+            margin: 20px;
+        }
+
+        .congratulations {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="level-info">Level: <span id="level">1</span></div>
+    <div class="game-container">
+        <div class="grid" id="grid"></div>
+    </div>
+    <div class="congratulations" id="congratulations">
+        <h2>Congratulations! 🎉</h2>
+        <p>You completed this level!</p>
+        <button onclick="nextLevel()">Next Level</button>
+    </div>
+
+    <script>
+        const emojis = ['🐢', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯'];
+        let level = 1;
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let canFlip = true;
+
+        const gridConfigs = [
+            { rows: 2, cols: 3 }, // Level 1
+            { rows: 3, cols: 3 }, // Level 2
+            { rows: 3, cols: 4 }, // Level 3
+            { rows: 4, cols: 4 }, // Level 4
+            { rows: 4, cols: 5 }  // Level 5
+        ];
+
+        function createBoard() {
+            const grid = document.getElementById('grid');
+            const config = gridConfigs[level - 1];
+            const totalPairs = (config.rows * config.cols) / 2;
+            
+            // Reset grid
+            grid.innerHTML = '';
+            grid.style.gridTemplateColumns = `repeat(${config.cols}, 100px)`;
+            
+            // Create emoji pairs
+            let gameEmojis = emojis.slice(0, totalPairs);
+            let cards = [...gameEmojis, ...gameEmojis];
+            
+            // Shuffle cards
+            cards.sort(() => Math.random() - 0.5);
+            
+            // Create cards
+            cards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-front">${emoji}</div>
+                    <div class="card-back">❓</div>
+                `;
+                card.dataset.emoji = emoji;
+                card.addEventListener('click', () => flipCard(card));
+                grid.appendChild(card);
+            });
+
+            // Reset game state
+            matchedPairs = 0;
+            flippedCards = [];
+            canFlip = true;
+            document.getElementById('level').textContent = level;
+        }
+
+        function flipCard(card) {
+            if (!canFlip || card.classList.contains('flip') || card.classList.contains('matched')) {
+                return;
+            }
+
+            card.classList.add('flip');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const match = card1.dataset.emoji === card2.dataset.emoji;
+
+            if (match) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                checkWin();
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flip');
+                    card2.classList.remove('flip');
+                }, 1000);
+            }
+
+            flippedCards = [];
+            setTimeout(() => {
+                canFlip = true;
+            }, 1000);
+        }
+
+        function checkWin() {
+            const config = gridConfigs[level - 1];
+            const totalPairs = (config.rows * config.cols) / 2;
+            
+            if (matchedPairs === totalPairs) {
+                setTimeout(() => {
+                    document.getElementById('congratulations').style.display = 'block';
+                }, 500);
+            }
+        }
+
+        function nextLevel() {
+            document.getElementById('congratulations').style.display = 'none';
+            if (level < gridConfigs.length) {
+                level++;
+                createBoard();
+            } else {
+                alert('Congratulations! You completed all levels! 🎉');
+                level = 1;
+                createBoard();
+            }
+        }
+
+        // Start the game
+        createBoard();
+    </script>
+</body>
+</html>

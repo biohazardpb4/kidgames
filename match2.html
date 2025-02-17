@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Memory Match Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+            touch-action: manipulation;
+        }
+
+        .game-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 10px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            gap: 8px;
+            margin: 10px auto;
+            justify-content: center;
+        }
+
+        .card {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transform: scale(1);
+            transition: transform 0.5s;
+        }
+
+        @media (max-width: 380px) {
+            .card {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            transform: rotateY(180deg) scale(0.95);
+            opacity: 0.2;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .card-front {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+        }
+
+        .card-front img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        .card-back {
+            background-color: #2196F3;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffffff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm-1 9h2V9h-2v6z"/></svg>');
+            background-size: 50%;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .level-info {
+            font-size: 20px;
+            margin: 10px;
+            text-align: center;
+            color: #333;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            width: 90%;
+            max-width: 320px;
+            animation: modalPop 0.3s ease-out;
+        }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal h2 {
+            color: #2196F3;
+            margin-bottom: 15px;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .modal button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal button:hover {
+            background-color: #1976D2;
+        }
+
+        .match-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 2000;
+            animation: popIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Add this to your existing styles */
+        .match-modal.show {
+            display: block;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            color: #2196F3;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="level-info">Level <span id="level">1</span></div>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">Moves</div>
+                <div class="stat-value" id="moves">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Pairs Left</div>
+                <div class="stat-value" id="pairs-left">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Time</div>
+                <div class="stat-value" id="timer">0:00</div>
+            </div>
+        </div>
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="match-modal" id="matchModal">Match! 🎉</div>
+
+    <div class="modal" id="levelComplete">
+        <div class="modal-content">
+            <h2>Level Complete!</h2>
+            <p>You completed level <span id="completedLevel">1</span></p>
+            <p>Moves: <span id="levelMoves">0</span></p>
+            <p>Time: <span id="levelTime">0:00</span></p>
+            <button onclick="nextLevel()">Next Level</button>
+        </div>
+    </div>
+
+    <div class="modal" id="gameComplete">
+        <div class="modal-content">
+            <h2>Congratulations!</h2>
+            <p>You've completed all levels!</p>
+            <button onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Image assets (replace these URLs with your actual image assets)
+        const imageAssets = [
+            'images/cat.svg',
+            'images/dog.svg',
+            'images/rabbit.svg',
+            'images/fox.svg',
+            'images/bear.svg',
+            'images/panda.svg',
+            'images/koala.svg',
+            'images/tiger.svg',
+            'images/elephant.svg',
+            'images/monkey.svg'
+        ];
+
+        let level = 1;
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let canFlip = true;
+        let moves = 0;
+        let timer = 0;
+        let timerInterval;
+
+        const gridConfigs = [
+            { rows: 2, cols: 3 }, // Level 1
+            { rows: 3, cols: 3 }, // Level 2
+            { rows: 3, cols: 4 }, // Level 3
+            { rows: 4, cols: 4 }, // Level 4
+            { rows: 4, cols: 5 }  // Level 5
+        ];
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timer = 0;
+            updateTimer();
+            timerInterval = setInterval(() => {
+                timer++;
+                updateTimer();
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timer / 60);
+            const seconds = timer % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function createBoard() {
+            const grid = document.getElementById('grid');
+            const config = gridConfigs[level - 1];
+            const totalPairs = (config.rows * config.cols) / 2;
+            
+            // Reset game state
+            grid.innerHTML = '';
+            grid.style.gridTemplateColumns = `repeat(${config.cols}, 1fr)`;
+            matchedPairs = 0;
+            moves = 0;
+            updateStats();
+            startTimer();
+            
+            // Create image pairs
+            let gameImages = imageAssets.slice(0, totalPairs);
+            let cards = [...gameImages, ...gameImages];
+            cards.sort(() => Math.random() - 0.5);
+            
+            cards.forEach((imageSrc, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-front">
+                        <img src="${imageSrc}" alt="card">
+                    </div>
+                    <div class="card-back"></div>
+                `;
+                card.dataset.image = imageSrc;
+                card.addEventListener('click', () => flipCard(card));
+                grid.appendChild(card);
+            });
+
+            document.getElementById('level').textContent = level;
+            document.getElementById('pairs-left').textContent = totalPairs;
+        }
+
+        function flipCard(card) {
+            if (!canFlip || card.classList.contains('flip') || 
+                card.classList.contains('matched')) {
+                return;
+            }
+
+            card.classList.add('flip');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                updateStats();
+                canFlip = false;
+                checkMatch();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('moves').textContent = moves;
+            const config = gridConfigs[level - 1];
+            const totalPairs = (config.rows * config.cols) / 2;
+            document.getElementById('pairs-left').textContent = 
+                totalPairs - matchedPairs;
+        }
+
+        function showMatchAnimation() {
+            const modal = document.getElementById('matchModal');
+            modal.style.display = 'block';
+            
+            // Create a new animation instance
+            const animation = modal.animate([
+                { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
+                { transform: 'translate(-50%, -50%) scale(1.2)', opacity: 1, offset: 0.5 },
+                { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
+            ], {
+                duration: 800,
+                easing: 'ease-out'
+            });
+
+            // Hide the modal after animation completes
+            animation.onfinish = () => {
+                modal.style.display = 'none';
+            };
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const match = card1.dataset.image === card2.dataset.image;
+
+            if (match) {
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                updateStats();
+                showMatchAnimation(); // Add this line to show the match animation
+                checkWin();
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flip');
+                    card2.classList.remove('flip');
+                }, 1000);
+            }
+
+            flippedCards = [];
+            setTimeout(() => {
+                canFlip = true;
+            }, 1000);
+        }
+
+        function checkWin() {
+            const config = gridConfigs[level - 1];
+            const totalPairs = (config.rows * config.cols) / 2;
+            
+            if (matchedPairs === totalPairs) {
+                clearInterval(timerInterval);
+                setTimeout(showLevelComplete, 500);
+            }
+        }
+
+        function showLevelComplete() {
+            document.getElementById('completedLevel').textContent = level;
+            document.getElementById('levelMoves').textContent = moves;
+            document.getElementById('levelTime').textContent = 
+                document.getElementById('timer').textContent;
+            
+            const modal = document.getElementById('levelComplete');
+            modal.style.display = 'flex';
+        }
+
+        function nextLevel() {
+            document.getElementById('levelComplete').style.display = 'none';
+            if (level < gridConfigs.length) {
+                level++;
+                createBoard();
+            } else {
+                document.getElementById('gameComplete').style.display = 'flex';
+            }
+        }
+
+        function restartGame() {
+            document.getElementById('gameComplete').style.display = 'none';
+            level = 1;
+            createBoard();
+        }
+
+        // Start the game
+        createBoard();
+    </script>
+</body>
+</html>
